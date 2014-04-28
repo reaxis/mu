@@ -43,8 +43,6 @@ Node.prototype.text = function(text) {
 };
 
 Node.prototype.css = function(rules) {
-	console.log("css called", this, rules);
-
 	for (var rule in rules) {
 		this.style[rule] = rules[rule];
 	}
