@@ -50,8 +50,10 @@ Node.prototype.css = function(rules) {
 	return this;
 };
 
-Node.prototype.attr = function(attr, value) {
-	this[attr] = value;
+Node.prototype.attr = function(rules) {
+	for (var rule in rules) {
+		this[rule] = rules[rule];
+	}
 
 	return this;
 };
@@ -99,5 +101,5 @@ Array.prototype.add = function(obj) {
 		return this.each(function() {
 			this[func].apply(this, $args);
 		});
-	}
+	};
 });
