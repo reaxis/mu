@@ -20,7 +20,7 @@ This code adds a green-colored paragraph with the word 'hello' to all divs:
 
 The next code says 'hi' on clicking the first button in your document:
 
-    µ.one("button").on(function() {alert("hi");});
+    µ.one("button").on("click", function() {alert("hi");});
 
 Because it is all based on prototypes, you can just go back to using the bulky DOM syntax if that pleases you:
 
@@ -29,7 +29,7 @@ Because it is all based on prototypes, you can just go back to using the bulky D
 Or you can go crazy!
 
     µ.all("div")
-     .on(function() {
+     .on("click", function() {
         alert("hi!");
      })
      .css({
@@ -39,7 +39,7 @@ Or you can go crazy!
      .attr({"title": "mydiv"})
      .add(
         µ.p("what's up?")
-         .on(function(event) {
+         .on("click", function(event) {
             event.preventDefault();
             alert("not much");
          })
