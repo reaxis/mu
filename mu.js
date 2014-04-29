@@ -30,8 +30,14 @@ Node.prototype.on = function(evt, func) {
 	return this;
 };
 
-Node.prototype.add = function(obj) {
-	this.appendChild(obj);
+Node.prototype.add = function() {
+	for (var i = 0; i < arguments.length; i++) {
+		if (typeof arguments[i] === "string") {
+			this.appendChild(document.createTextNode(arguments[i]));
+		} else {
+			this.appendChild(arguments[i]);
+		}
+	}
 
 	return this;
 };
@@ -86,9 +92,17 @@ Array.prototype.each = function(func) {
 	return this;
 };
 
-Array.prototype.add = function(obj) {
+Array.prototype.add = function() {
+	var args = arguments;
+
 	return this.each(function() {
-		this.add(obj.cloneNode());
+		for (var i = 0; i < args.length; i++) {
+			if (typeof args[i] === "string") {
+				this.appendChild(document.createTextNode(args[i]));
+			} else {
+				this.appendChild(args[i].cloneNode(true));
+			}
+		}
 	});
 };
 
@@ -103,3 +117,57 @@ Array.prototype.add = function(obj) {
 		});
 	};
 });
+
+(function() {
+	var tags = {
+		img: ["src", "alt", "title"],
+		a: ["href"],
+		input: ["type", "value"],
+		option: ["value"],
+		abbr: ["title"],
+		canvas: ["width", "height"]
+	},
+
+	simpleTags = "section,nav,article,aside,header,footer,address,main,div,span,p,strong,em,h1,h2,h3,h4,h5,h6,li,td".split(","),
+
+	nestedTags = {
+		ul: "li",
+		ol: "li",
+		tr: "td",
+		table: "tr"
+	};
+
+	for (var i = 0; i < simpleTags.length; i++) {
+		tags[simpleTags[i]] = [];
+	}
+
+	for (var tag in tags) {
+		µ[tag] = (function(t, attrs) {
+			return function() {
+				var attributes = {};
+
+				for (var i = 0; i < arguments.length && i < attrs.length; i++) {
+					attributes[attrs[i]] = arguments[i];
+				}
+
+				var el = µ.create(t).attr(attributes);
+
+				return el.add.apply(el, Array.prototype.slice.call(arguments, i));
+			};
+		})(tag, tags[tag]);
+	}
+
+	for (var tag in nestedTags) {
+		µ[tag] = (function(t, child) {
+			return function() {
+				var el = µ.create(t);
+
+				for (var i = 0; i < arguments.length; i++) {
+					el.add(µ[child].apply(null, Array.prototype.slice.call(arguments[i])));
+				}
+
+				return el;
+			};
+		})(tag, nestedTags[tag]);
+	}
+})();

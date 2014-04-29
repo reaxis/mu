@@ -10,13 +10,13 @@ just to add some text to an element?
 
 Look no further!
 
-µ is a tiny (1369 bytes) DOM library for JavaScript, based on prototypal extension of Node and Array (yes, it may be ugly, but it works mighty fine), chainability, and not caring about Internet Explorer.
+µ is a tiny (819 bytes gzipped) DOM library for JavaScript, based on prototypal extension of Node and Array (yes, it may be ugly, but it works mighty fine), chainability, and not caring about Internet Explorer.
 
 ## Examples
 
 This code adds a green-colored paragraph with the word 'hello' to all divs:
 
-    µ.all("div").add(µ.create("p").text("hello").css({color: "green"}));
+    µ.all("div").add(µ.p("hello").css({color: "green"}));
 
 The next code says 'hi' on clicking the first button in your document:
 
@@ -24,7 +24,7 @@ The next code says 'hi' on clicking the first button in your document:
 
 Because it is all based on prototypes, you can just go back to using the bulky DOM syntax if that pleases you:
 
-    µ.create("div").appendChild(document.createElement("p"));
+    µ.div().appendChild(document.createElement("p"));
 
 Or you can go crazy!
 
@@ -38,8 +38,7 @@ Or you can go crazy!
      })
      .attr({"title": "mydiv"})
      .add(
-        µ.create("p")
-         .text("what's up?")
+        µ.p("what's up?")
          .on(function(event) {
             event.preventDefault();
             alert("not much");
@@ -54,20 +53,38 @@ Or you can go crazy!
 
 ### Using µ
 
-`µ.one(selector)` returns the first element in document found by `selector`.  
-`µ.all(selector)` returns all elements in document found by `selector`.  
-`µ.create(tag)` returns a new element.
+**µ.one(selector)** returns the first element in document found by `selector`.  
+**µ.all(selector)** returns all elements in document found by `selector`.  
+**µ.create(tag)** returns a new element.
+
+### µ creation shorthand
+
+You can create elements using the following shorthand functions. All arguments are optional, and adding more arguments basically works like `.add()` (see below).
+
+**µ.a(href)** creates an anchor.  
+**µ.img(src, alt, title)** creates an image.  
+**µ.input(type, value)** you guessed it.  
+**µ.option(value)** yes.  
+**µ.abbr(title)** also.  
+**µ.canvas(width, height)** and a canvas.
+
+And some special, nested tags:
+
+**µ.ul(liText, liText, liText)** creates a list.  
+**µ.table([tdText, tdText], [tdText, tdText])** creates a table.
+
+There are also shorthands for the following tags, without specific attributes: **section, nav, article, aside, header, footer, address, main, div, span, p, strong, em, h1, h2, h3, h4, h5, h6, li, td**
 
 ### Using chaining
 
-`.one(selector)` returns the first element found by `selector`.  
-`.all(selector)` returns all elements found by `selector`.  
-`.each(func)` loops over element(s) and runs `func` on each one.  
-`.on(evt, func)` adds an event listener `func` for event type `evt`.  
-`.add(el)` adds a new element to element(s).  
-`.text(text)` adds a new TextNode to element(s).  
-`.css({property: value})` changes the style of element(s).  
-`.attr({attribute: value})` changes an attribute.
+**.one(selector)** returns the first element found by `selector`.  
+**.all(selector)** returns all elements found by `selector`.  
+**.each(func)** loops over element(s) and runs `func` on each one.  
+**.on(evt, func)** adds an event listener `func` for event type `evt`.  
+**.add(el[, el2, el3, ...])** adds new element(s) to element(s).  
+**.text(text)** adds a new TextNode to element(s).  
+**.css({property: value})** changes the style of element(s).  
+**.attr({attribute: value})** changes an attribute.
 
 ## Compatibility
 
