@@ -42,12 +42,6 @@ Node.prototype.add = function() {
 	return this;
 };
 
-Node.prototype.text = function(text) {
-	this.appendChild(document.createTextNode(text));
-
-	return this;
-};
-
 Node.prototype.css = function(rules) {
 	for (var rule in rules) {
 		this.style[rule] = rules[rule];
@@ -106,7 +100,7 @@ Array.prototype.add = function() {
 	});
 };
 
-["on", "text", "css", "attr"].each(function() {
+["on", "css", "attr"].each(function() {
 	var func = this + "";
 
 	Array.prototype[func] = function() {

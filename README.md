@@ -10,7 +10,11 @@ just to add some text to an element?
 
 Look no further!
 
-µ is a tiny (819 bytes gzipped) DOM library for JavaScript, based on prototypal extension of Node and Array (yes, it may be ugly, but it works mighty fine), chainability, and not caring about Internet Explorer.
+µ is a tiny (804 bytes gzipped) DOM library for JavaScript, based on prototypal extension of Node and Array (yes, it may be ugly, but it works mighty fine), chainability, and not caring about Internet Explorer.
+
+The above example written with µ:
+
+    µ.one("div").add("hello");
 
 ## Examples
 
@@ -36,7 +40,9 @@ Or you can go crazy!
         color: "green",
         background: "yellow"
      })
-     .attr({"title": "mydiv"})
+     .attr({
+        "title": "mydiv"
+     })
      .add(
         µ.p("what's up?")
          .on("click", function(event) {
@@ -71,18 +77,20 @@ You can create elements using the following shorthand functions. All arguments a
 And some special, nested tags:
 
 **µ.ul(liText, liText, liText)** creates a list.  
+**µ.ol(liText, liText, liText)** creates a numbered list.  
 **µ.table([tdText, tdText], [tdText, tdText])** creates a table.
 
 There are also shorthands for the following tags, without specific attributes: **section, nav, article, aside, header, footer, address, main, div, span, p, strong, em, h1, h2, h3, h4, h5, h6, li, td**
 
 ### Using chaining
 
+When using a callback function, like in `.each()` and `.on()`, `this` refers to the current element or the element which received the event.
+
 **.one(selector)** returns the first element found by `selector`.  
 **.all(selector)** returns all elements found by `selector`.  
 **.each(func)** loops over element(s) and runs `func` on each one.  
 **.on(evt, func)** adds an event listener `func` for event type `evt`.  
-**.add(el[, el2, el3, ...])** adds new element(s) to element(s).  
-**.text(text)** adds a new TextNode to element(s).  
+**.add(el[, el2, el3, ...])** adds new element(s) or TextNodes (when the argument is a string) to element(s).    
 **.css({property: value})** changes the style of element(s).  
 **.attr({attribute: value})** changes an attribute.
 
