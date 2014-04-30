@@ -122,7 +122,7 @@ Array.prototype.add = function() {
 		canvas: ["width", "height"]
 	},
 
-	simpleTags = "section,nav,article,aside,header,footer,address,main,div,span,p,strong,em,h1,h2,h3,h4,h5,h6,li,td".split(","),
+	simpleTags = "section nav article aside header footer address main div span p strong em h1 h2 h3 h4 h5 h6 li td".split(" "),
 
 	nestedTags = {
 		ul: "li",
