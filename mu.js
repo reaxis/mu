@@ -32,11 +32,7 @@ Node.prototype.on = function(evt, func) {
 
 Node.prototype.add = function() {
 	for (var i = 0; i < arguments.length; i++) {
-		if (typeof arguments[i] === "string") {
-			this.appendChild(document.createTextNode(arguments[i]));
-		} else {
-			this.appendChild(arguments[i]);
-		}
+		this.appendChild(typeof arguments[i] === "string" ? document.createTextNode(arguments[i]) : this.appendChild(arguments[i]));
 	}
 
 	return this;
@@ -91,11 +87,7 @@ Array.prototype.add = function() {
 
 	return this.each(function() {
 		for (var i = 0; i < args.length; i++) {
-			if (typeof args[i] === "string") {
-				this.appendChild(document.createTextNode(args[i]));
-			} else {
-				this.appendChild(args[i].cloneNode(true));
-			}
+			this.appendChild(typeof args[i] === "string" ? document.createTextNode(args[i]) : this.appendChild(args[i].cloneNode(true)));
 		}
 	});
 };
