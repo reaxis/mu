@@ -87,7 +87,7 @@ Array.prototype.add = function() {
 
 	return this.each(function() {
 		for (var i = 0; i < args.length; i++) {
-			this.appendChild(typeof args[i] === "string" ? document.createTextNode(args[i]) : this.appendChild(args[i].cloneNode(true)));
+			this.appendChild(typeof args[i] === "string" ? document.createTextNode(args[i]) : args[i].cloneNode(true));
 		}
 	});
 };
