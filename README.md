@@ -10,7 +10,7 @@ just to add some text to an element?
 
 Look no further!
 
-µ is a tiny (804 bytes gzipped) DOM library for JavaScript, based on prototypal extension of Node and Array (yes, it may be ugly, but it works mighty fine), chainability, and not caring about Internet Explorer.
+µ is a tiny (867 bytes gzipped) DOM library for JavaScript, based on prototypal extension of Node and Array (yes, it may be ugly, but it works mighty fine), chainability, and not caring about Internet Explorer.
 
 The above example written with µ:
 
@@ -88,7 +88,7 @@ When using a callback function, like in `.each()` and `.on()`, `this` refers to 
 
 **.one(selector)** returns the first element found by `selector`.  
 **.all(selector)** returns all elements found by `selector`.  
-**.each(func)** loops over element(s) and runs `func` on each one.  
+**.each(func)** loops over element(s) and runs `func` on each one. `func` receives one argument: the index of the current element.  
 **.on(evt, func)** adds an event listener `func` for event type `evt`.  
 **.add(el[, el2, el3, ...])** adds new element(s) or TextNodes (when the argument is a string) to element(s).    
 **.css({property: value})** changes the style of element(s).  

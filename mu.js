@@ -19,7 +19,7 @@ Node.prototype.all = function(selector) {
 };
 
 Node.prototype.each = function(func) {
-	func.bind(this)();
+	func.bind(this)(0);
 
 	return this;
 };
@@ -85,8 +85,8 @@ Array.prototype.all = function(selector) {
 };
 
 Array.prototype.each = function(func) {
-	this.forEach(function(el) {
-		func.bind(el)();
+	this.forEach(function(el, i) {
+		func.bind(el)(i);
 	});
 
 	return this;
