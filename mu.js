@@ -141,9 +141,9 @@ Array.prototype.add = function() {
 		table: "tr"
 	};
 
-	for (var i = 0; i < simpleTags.length; i++) {
-		tags[simpleTags[i]] = [];
-	}
+	simpleTags.each(function() {
+		tags[this] = [];
+	});
 
 	for (var tag in tags) {
 		µ[tag] = (function(t, attrs) {
