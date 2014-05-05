@@ -26,9 +26,9 @@ Node.prototype.each = function(func) {
 
 Node.prototype.µAddEventListener = Node.prototype.addEventListener;
 
-Node.prototype.µEventCache = [];
-
 Node.prototype.addEventListener = function(evt, func) {
+	this.µEventCache = this.µEventCache || [];
+
 	this.µEventCache.push(arguments);
 
 	this.µAddEventListener.apply(this, arguments);
@@ -42,7 +42,11 @@ Node.prototype.on = function(evt, func) {
 
 Node.prototype.add = function() {
 	for (var i = 0; i < arguments.length; i++) {
-		this.appendChild(typeof arguments[i] === "string" ? document.createTextNode(arguments[i]) : arguments[i]);
+		if (Object.prototype.toString.call(arguments[i]) === "[object Array]") {
+			this.add.apply(this, arguments[i]);
+		} else {
+			this.appendChild(typeof arguments[i] === "string" ? document.createTextNode(arguments[i]) : arguments[i]);
+		}
 	}
 
 	return this;
@@ -62,6 +66,22 @@ Node.prototype.attr = function(rules) {
 	}
 
 	return this;
+};
+
+Node.prototype.copy = function() {
+	var clone = this.cloneNode(false);
+
+	if (this.µEventCache) {
+		this.µEventCache.each(function() {
+			clone.addEventListener.apply(clone, this);
+		});
+	}
+
+	Array.prototype.slice.call(this.childNodes).each(function() {
+		clone.appendChild(this.copy());
+	});
+
+	return clone;
 };
 
 Array.prototype.one = function(selector) {
@@ -97,17 +117,23 @@ Array.prototype.add = function() {
 
 	return this.each(function() {
 		for (var i = 0; i < args.length; i++) {
-			var clone = typeof args[i] === "string" ? document.createTextNode(args[i]) : args[i].cloneNode(true);
-
-			if (typeof args[i] !== "string") {
-				args[i].µEventCache.each(function() {
-					clone.addEventListener.apply(clone, this);
-				});
+			if (Object.prototype.toString.call(args[i]) === "[object Array]") {
+				this.add.apply(this, args[i].copy());
+			} else {
+				this.appendChild(typeof args[i] === "string" ? document.createTextNode(args[i]) : args[i].copy());
 			}
-
-			this.appendChild(clone);
 		}
 	});
+};
+
+Array.prototype.copy = function() {
+	var clones = [];
+
+	this.each(function() {
+		clones.push(this.copy());
+	})
+
+	return clones;
 };
 
 ["on", "css", "attr"].each(function() {
