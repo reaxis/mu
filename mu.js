@@ -24,8 +24,18 @@ Node.prototype.each = function(func) {
 	return this;
 };
 
+Node.prototype.µAddEventListener = Node.prototype.addEventListener;
+
+Node.prototype.µEventCache = [];
+
+Node.prototype.addEventListener = function(evt, func) {
+	this.µEventCache.push(arguments);
+
+	this.µAddEventListener.apply(this, arguments);
+};
+
 Node.prototype.on = function(evt, func) {
-	this.addEventListener(evt, func.bind(this));
+	this.addEventListener(evt, func);
 
 	return this;
 };
@@ -87,7 +97,15 @@ Array.prototype.add = function() {
 
 	return this.each(function() {
 		for (var i = 0; i < args.length; i++) {
-			this.appendChild(typeof args[i] === "string" ? document.createTextNode(args[i]) : args[i].cloneNode(true));
+			var clone = typeof args[i] === "string" ? document.createTextNode(args[i]) : args[i].cloneNode(true);
+
+			if (typeof args[i] !== "string") {
+				args[i].µEventCache.each(function() {
+					clone.addEventListener.apply(clone, this);
+				});
+			}
+
+			this.appendChild(clone);
 		}
 	});
 };
