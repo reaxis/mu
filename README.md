@@ -93,8 +93,14 @@ When using a callback function, like in `.each()` and `.on()`, `this` refers to 
 **.add(el[, el2, el3, ...])** adds new element(s) or TextNodes (when the argument is a string) to element(s).    
 **.css({property: value})** changes the style of element(s).  
 **.attr({attribute: value})** changes an attribute.  
-**.copy()** copies element(s) (used by `.add()`).
+**.copy()** copies element(s), complete with children and events (used internally by `.add()`).
 
 ## Compatibility
 
-So far I've tested this on Firefox 28 and Chrome 34.
+So far I've tested this on Firefox 29 and Chrome 34.
+
+According to [caniuse.com](http://caniuse.com), theoretically it should work on Firefox 3.5+, Chrome 4.0+, Internet Explorer 9.0+, Safari 3.1+, Opera 10.0+, iOS Safari 3.2+, Android browser 2.1+ and Chrome for Android 33.0+, based on the following properties:
+
+- [querySelector/querySelectorAll](http://caniuse.com/queryselector)
+- [Array.prototype.forEach](http://kangax.github.io/es5-compat-table/#Array.prototype.forEach)
+- [addEventListener](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget.addEventListener)
