@@ -11,7 +11,7 @@ module.exports = function(grunt) {
 				compilerFile: compiler.getPath(),
 				compilerOpts: {
 					compilation_level: "SIMPLE_OPTIMIZATIONS"
-				},
+				}
 			},
 			compile: {
 				src: "mu.js",
