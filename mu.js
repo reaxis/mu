@@ -47,7 +47,7 @@
 
 	Node.prototype.µAddEventListener = Node.prototype.addEventListener;
 
-	Node.prototype.addEventListener = function(evt, func) {
+	Node.prototype.addEventListener = function() {
 		this.µEventCache = this.µEventCache || [];
 
 		this.µEventCache.push(arguments);
@@ -66,7 +66,7 @@
 			if (Object.prototype.toString.call(arguments[i]) === "[object Array]") {
 				this.add.apply(this, arguments[i]);
 			} else {
-				this.appendChild(typeof arguments[i] === "string" ? document.createTextNode(arguments[i]) : arguments[i]);
+				this.appendChild(!!arguments[i].nodeType ? arguments[i] : document.createTextNode(arguments[i]));
 			}
 		}
 
@@ -76,25 +76,25 @@
 	Node.prototype.css = function(rules) {
 		if (typeof rules === "string") {
 			return this.style[toCamelCase(rules)];
-		} else {
-			for (var rule in rules) {
-				this.style[toCamelCase(rule)] = rules[rule];
-			}
-
-			return this;
 		}
+
+		for (var rule in rules) {
+			this.style[toCamelCase(rule)] = rules[rule];
+		}
+
+		return this;
 	};
 
 	Node.prototype.attr = function(rules) {
 		if (typeof rules === "string") {
 			return this[rules];
-		} else {
-			for (var rule in rules) {
-				this[rule] = rules[rule];
-			}
-
-			return this;
 		}
+
+		for (var rule in rules) {
+			this[rule] = rules[rule];
+		}
+
+		return this;
 	};
 
 	Node.prototype.empty = function() {
@@ -163,13 +163,13 @@
 				if (Object.prototype.toString.call(args[i]) === "[object Array]") {
 					this.add.apply(this, args[i].copy());
 				} else {
-					this.appendChild(typeof args[i] === "string" ? document.createTextNode(args[i]) : args[i].copy());
+					this.appendChild(!!args[i].nodeType ? args[i].copy() : document.createTextNode(args[i]));
 				}
 			}
 		});
 	};
 
-	["on", "css", "attr", "empty", "text", "copy"].each(function() {
+	"on css attr empty text copy".split(" ").each(function() {
 		var func = this + "";
 
 		Array.prototype[func] = function() {
@@ -195,8 +195,6 @@
 		canvas: ["width", "height"]
 	},
 
-	simpleTags = "section nav article aside header footer address main div span p strong em h1 h2 h3 h4 h5 h6 li td".split(" "),
-
 	nestedTags = {
 		ul: "li",
 		ol: "li",
@@ -204,7 +202,7 @@
 		table: "tr"
 	};
 
-	simpleTags.each(function() {
+	"section nav article aside header footer address main div span p strong em h1 h2 h3 h4 h5 h6 li td".split(" ").each(function() {
 		tags[this] = [];
 	});
 
@@ -230,7 +228,7 @@
 				var el = µ.create(t);
 
 				for (var i = 0; i < arguments.length; i++) {
-					el.add(µ[child].apply(null, Array.prototype.slice.call(arguments[i])));
+					el.add(µ[child].apply(null, Object.prototype.toString.call(arguments[i]) === "[object Array]" ? arguments[i] : [arguments[i]]));
 				}
 
 				return el;
