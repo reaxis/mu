@@ -31,6 +31,10 @@
 		return s.replace(/-(.)/g, function(a, b) {return b.toUpperCase();});
 	};
 
+	function isArray(a) {
+		return Object.prototype.toString.call(a) === "[object Array]";
+	};
+
 	Node.prototype.one = function(selector) {
 		return this.querySelector(selector);
 	};
@@ -63,7 +67,7 @@
 
 	Node.prototype.add = function() {
 		for (var i = 0; i < arguments.length; i++) {
-			if (Object.prototype.toString.call(arguments[i]) === "[object Array]") {
+			if (isArray(arguments[i])) {
 				this.add.apply(this, arguments[i]);
 			} else {
 				this.appendChild(!!arguments[i].nodeType ? arguments[i] : document.createTextNode(arguments[i]));
@@ -160,7 +164,7 @@
 
 		return this.each(function() {
 			for (var i = 0; i < args.length; i++) {
-				if (Object.prototype.toString.call(args[i]) === "[object Array]") {
+				if (isArray(args[i])) {
 					this.add.apply(this, args[i].copy());
 				} else {
 					this.appendChild(!!args[i].nodeType ? args[i].copy() : document.createTextNode(args[i]));
@@ -228,7 +232,7 @@
 				var el = µ.create(t);
 
 				for (var i = 0; i < arguments.length; i++) {
-					el.add(µ[child].apply(null, Object.prototype.toString.call(arguments[i]) === "[object Array]" ? arguments[i] : [arguments[i]]));
+					el.add(µ[child].apply(null, isArray(arguments[i]) ? arguments[i] : [arguments[i]]));
 				}
 
 				return el;
