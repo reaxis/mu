@@ -78,6 +78,7 @@ And some special, nested tags:
 
 - **µ.ul(liText, liText, liText)** creates a list.
 - **µ.ol(liText, liText, liText)** creates a numbered list.
+- **µ.tr(tdText, tdText)** creates a table row.
 - **µ.table([tdText, tdText], [tdText, tdText])** creates a table.
 
 There are also shorthands for the following tags, without specific attributes: **section, nav, article, aside, header, footer, address, main, div, span, p, strong, em, h1, h2, h3, h4, h5, h6, li, td**
@@ -92,14 +93,19 @@ When using a callback function, like in `.each()` and `.on()`, `this` refers to 
 - **.on(evt, func)** adds an event listener `func` for event type `evt`.
 - **.add(el[, el2, el3, ...])** adds new element(s) or TextNodes (when the argument is a string) to element(s).
 - **.css({property: value})** changes the style of element(s).
+- **.css(property)** returns value(s) of property (only works with properties set by JavaScript).
 - **.attr({attribute: value})** changes an attribute.
+- **.attr(attribute)** returns value(s) of attribute.
+- **.empty()** empties element.
+- **.text(text)** sets textContent of element.
+- **.text()** returns textContent of element (doesn't work on Arrays).
 - **.copy()** copies element(s), complete with children and events (used internally by `.add()`).
 
 ## Compatibility
 
 So far I've tested this on Firefox 29 and Chrome 34.
 
-According to [caniuse.com](http://caniuse.com), theoretically it should work on Firefox 3.5+, Chrome 4.0+, Internet Explorer 9.0+, Safari 3.1+, Opera 10.0+, iOS Safari 3.2+, Android browser 2.1+ and Chrome for Android 33.0+, based on the following properties:
+According to [caniuse.com](http://caniuse.com) and other sources, theoretically it should work on Firefox 3.5+, Chrome 4.0+, Internet Explorer 9.0+, Safari 3.1+, Opera 10.0+, iOS Safari 3.2+, Android browser 2.1+ and Chrome for Android 33.0+, based on the following properties:
 
 - [querySelector/querySelectorAll](http://caniuse.com/queryselector)
 - [Array.prototype.forEach](http://kangax.github.io/es5-compat-table/#Array.prototype.forEach)

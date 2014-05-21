@@ -1,17 +1,11 @@
 (function(definition) {
-	// Turn off strict mode for this function so we can assign to global.µ
 	/* jshint strict: false */
 
-	// CommonJS
-	if (typeof exports === "object") {
+	if (typeof exports === "object") { // CommonJS
 		module.exports = definition();
-
-	// RequireJS
-	} else if (typeof define === "function" && define.amd) {
+	} else if (typeof define === "function" && define.amd) { // RequireJS
 		define(definition);
-
-	// <script>
-	} else {
+	} else { // <script>
 		µ = definition();
 	}
 })(function() {
@@ -30,6 +24,8 @@
 	µ.create = function(tag) {
 		return document.createElement(tag);
 	};
+
+/******************************************************************************/
 
 	function toCamelCase(s) {
 		return s.replace(/-(.)/g, function(a, b) {return b.toUpperCase();});
@@ -90,12 +86,28 @@
 	};
 
 	Node.prototype.attr = function(rules) {
-		for (var rule in rules) {
-			this[rule] = rules[rule];
+		if (typeof rules === "string") {
+			return this[rules];
+		} else {
+			for (var rule in rules) {
+				this[rule] = rules[rule];
+			}
+
+			return this;
+		}
+	};
+
+	Node.prototype.empty = function() {
+		while (this.firstChild) {
+		    this.removeChild(this.firstChild);
 		}
 
 		return this;
-	};
+	}
+
+	Node.prototype.text = function(t) {
+		return typeof t === "undefined" ? this.textContent : this.attr({textContent: t});
+	}
 
 	Node.prototype.copy = function() {
 		var clone = this.cloneNode(false);
@@ -113,11 +125,21 @@
 		return clone;
 	};
 
+/******************************************************************************/
+
+	Array.prototype.each = function(func) {
+		this.forEach(function(el, i) {
+			func.bind(el)(i);
+		});
+
+		return this;
+	};
+
 	Array.prototype.one = function(selector) {
 		var list = [];
 
-		this.forEach(function(el) {
-			list.push(el.querySelector(selector));
+		this.each(function() {
+			this.querySelector(selector) && list.push(this.querySelector(selector));
 		});
 
 		return list;
@@ -126,19 +148,11 @@
 	Array.prototype.all = function(selector) {
 		var list = [];
 
-		this.forEach(function(el) {
-			list = list.concat(Array.prototype.slice.call(el.querySelectorAll(selector)));
+		this.each(function() {
+			list = list.concat(Array.prototype.slice.call(this.querySelectorAll(selector)));
 		});
 
 		return list;
-	};
-
-	Array.prototype.each = function(func) {
-		this.forEach(function(el, i) {
-			func.bind(el)(i);
-		});
-
-		return this;
 	};
 
 	Array.prototype.add = function() {
@@ -155,32 +169,27 @@
 		});
 	};
 
-	Array.prototype.copy = function() {
-		var clones = [];
-
-		this.each(function() {
-			clones.push(this.copy());
-		});
-
-		return clones;
-	};
-
-	["on", "css", "attr"].each(function() {
+	["on", "css", "attr", "empty", "text", "copy"].each(function() {
 		var func = this + "";
 
 		Array.prototype[func] = function() {
-			var $args = arguments;
+			var args = arguments,
+				arr = [];
 
-			return this.each(function() {
-				this[func].apply(this, $args);
+			this.each(function() {
+				arr.push(this[func].apply(this, args));
 			});
+
+			return arr;
 		};
 	});
+
+/******************************************************************************/
 
 	var tags = {
 		img: ["src", "alt", "title"],
 		a: ["href"],
-		input: ["type", "value"],
+		input: ["type", "name", "value"],
 		option: ["value"],
 		abbr: ["title"],
 		canvas: ["width", "height"]
@@ -228,6 +237,8 @@
 			};
 		})(tag, nestedTags[tag]);
 	}
+
+/******************************************************************************/
 
 	return µ;
 });
