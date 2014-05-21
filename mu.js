@@ -79,10 +79,10 @@
 
 	Node.prototype.css = function(rules) {
 		if (typeof rules === "string") {
-			return this.style[rules.replace(/-(.)/g, function(a, b) {return b.toUpperCase();})];
+			return this.style[toCamelCase(rules)];
 		} else {
 			for (var rule in rules) {
-				this.style[rule.replace(/-(.)/g, function(a, b) {return b.toUpperCase();})] = rules[rule];
+				this.style[toCamelCase(rule)] = rules[rule];
 			}
 
 			return this;
