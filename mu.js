@@ -1,19 +1,39 @@
-(function() {
-	var µ = {
-		one: function(selector) {
-			return document.querySelector(selector);
-		},
-		all: function(selector) {
-			return Array.prototype.slice.call(document.querySelectorAll(selector));
-		},
-		create: function(tag) {
-			return document.createElement(tag);
-		}
+(function(definition) {
+	// Turn off strict mode for this function so we can assign to global.µ
+	/* jshint strict: false */
+
+	// CommonJS
+	if (typeof exports === "object") {
+		module.exports = definition();
+
+	// RequireJS
+	} else if (typeof define === "function" && define.amd) {
+		define(definition);
+
+	// <script>
+	} else {
+		µ = definition();
+	}
+})(function() {
+	"use strict";
+
+	function µ() {};
+
+	µ.one = function(selector) {
+		return document.querySelector(selector);
+	};
+
+	µ.all = function(selector) {
+		return Array.prototype.slice.call(document.querySelectorAll(selector));
+	};
+
+	µ.create = function(tag) {
+		return document.createElement(tag);
 	};
 
 	function toCamelCase(s) {
 		return s.replace(/-(.)/g, function(a, b) {return b.toUpperCase();});
-	}
+	};
 
 	Node.prototype.one = function(selector) {
 		return this.querySelector(selector);
@@ -209,5 +229,5 @@
 		})(tag, nestedTags[tag]);
 	}
 
-	window.µ = µ;
-})();
+	return µ;
+});
