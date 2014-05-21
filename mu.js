@@ -54,7 +54,7 @@ Node.prototype.add = function() {
 
 Node.prototype.css = function(rules) {
 	for (var rule in rules) {
-		this.style[rule] = rules[rule];
+		this.style[rule.replace(/-(.)/g, function(a, b) {return b.toUpperCase();})] = rules[rule];
 	}
 
 	return this;
@@ -131,7 +131,7 @@ Array.prototype.copy = function() {
 
 	this.each(function() {
 		clones.push(this.copy());
-	})
+	});
 
 	return clones;
 };
