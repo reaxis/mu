@@ -1,154 +1,162 @@
-var µ = {
-	one: function(selector) {
-		return document.querySelector(selector);
-	},
-	all: function(selector) {
-		return Array.prototype.slice.call(document.querySelectorAll(selector));
-	},
-	create: function(tag) {
-		return document.createElement(tag);
-	}
-};
-
-Node.prototype.one = function(selector) {
-	return this.querySelector(selector);
-};
-
-Node.prototype.all = function(selector) {
-	return Array.prototype.slice.call(this.querySelectorAll(selector));
-};
-
-Node.prototype.each = function(func) {
-	func.bind(this)(0);
-
-	return this;
-};
-
-Node.prototype.µAddEventListener = Node.prototype.addEventListener;
-
-Node.prototype.addEventListener = function(evt, func) {
-	this.µEventCache = this.µEventCache || [];
-
-	this.µEventCache.push(arguments);
-
-	this.µAddEventListener.apply(this, arguments);
-};
-
-Node.prototype.on = function(evt, func) {
-	this.addEventListener(evt, func);
-
-	return this;
-};
-
-Node.prototype.add = function() {
-	for (var i = 0; i < arguments.length; i++) {
-		if (Object.prototype.toString.call(arguments[i]) === "[object Array]") {
-			this.add.apply(this, arguments[i]);
-		} else {
-			this.appendChild(typeof arguments[i] === "string" ? document.createTextNode(arguments[i]) : arguments[i]);
+(function() {
+	var µ = {
+		one: function(selector) {
+			return document.querySelector(selector);
+		},
+		all: function(selector) {
+			return Array.prototype.slice.call(document.querySelectorAll(selector));
+		},
+		create: function(tag) {
+			return document.createElement(tag);
 		}
+	};
+
+	function toCamelCase(s) {
+		return s.replace(/-(.)/g, function(a, b) {return b.toUpperCase();});
 	}
 
-	return this;
-};
+	Node.prototype.one = function(selector) {
+		return this.querySelector(selector);
+	};
 
-Node.prototype.css = function(rules) {
-	for (var rule in rules) {
-		this.style[rule.replace(/-(.)/g, function(a, b) {return b.toUpperCase();})] = rules[rule];
-	}
+	Node.prototype.all = function(selector) {
+		return Array.prototype.slice.call(this.querySelectorAll(selector));
+	};
 
-	return this;
-};
+	Node.prototype.each = function(func) {
+		func.bind(this)(0);
 
-Node.prototype.attr = function(rules) {
-	for (var rule in rules) {
-		this[rule] = rules[rule];
-	}
+		return this;
+	};
 
-	return this;
-};
+	Node.prototype.µAddEventListener = Node.prototype.addEventListener;
 
-Node.prototype.copy = function() {
-	var clone = this.cloneNode(false);
+	Node.prototype.addEventListener = function(evt, func) {
+		this.µEventCache = this.µEventCache || [];
 
-	if (this.µEventCache) {
-		this.µEventCache.each(function() {
-			clone.addEventListener.apply(clone, this);
-		});
-	}
+		this.µEventCache.push(arguments);
 
-	Array.prototype.slice.call(this.childNodes).each(function() {
-		clone.appendChild(this.copy());
-	});
+		this.µAddEventListener.apply(this, arguments);
+	};
 
-	return clone;
-};
+	Node.prototype.on = function(evt, func) {
+		this.addEventListener(evt, func);
 
-Array.prototype.one = function(selector) {
-	var list = [];
+		return this;
+	};
 
-	this.forEach(function(el) {
-		list.push(el.querySelector(selector));
-	});
-
-	return list;
-};
-
-Array.prototype.all = function(selector) {
-	var list = [];
-
-	this.forEach(function(el) {
-		list = list.concat(Array.prototype.slice.call(el.querySelectorAll(selector)));
-	});
-
-	return list;
-};
-
-Array.prototype.each = function(func) {
-	this.forEach(function(el, i) {
-		func.bind(el)(i);
-	});
-
-	return this;
-};
-
-Array.prototype.add = function() {
-	var args = arguments;
-
-	return this.each(function() {
-		for (var i = 0; i < args.length; i++) {
-			if (Object.prototype.toString.call(args[i]) === "[object Array]") {
-				this.add.apply(this, args[i].copy());
+	Node.prototype.add = function() {
+		for (var i = 0; i < arguments.length; i++) {
+			if (Object.prototype.toString.call(arguments[i]) === "[object Array]") {
+				this.add.apply(this, arguments[i]);
 			} else {
-				this.appendChild(typeof args[i] === "string" ? document.createTextNode(args[i]) : args[i].copy());
+				this.appendChild(typeof arguments[i] === "string" ? document.createTextNode(arguments[i]) : arguments[i]);
 			}
 		}
-	});
-};
 
-Array.prototype.copy = function() {
-	var clones = [];
+		return this;
+	};
 
-	this.each(function() {
-		clones.push(this.copy());
-	});
+	Node.prototype.css = function(rules) {
+		if (typeof rules === "string") {
+			return this.style[rules.replace(/-(.)/g, function(a, b) {return b.toUpperCase();})];
+		} else {
+			for (var rule in rules) {
+				this.style[rule.replace(/-(.)/g, function(a, b) {return b.toUpperCase();})] = rules[rule];
+			}
 
-	return clones;
-};
+			return this;
+		}
+	};
 
-["on", "css", "attr"].each(function() {
-	var func = this + "";
+	Node.prototype.attr = function(rules) {
+		for (var rule in rules) {
+			this[rule] = rules[rule];
+		}
 
-	Array.prototype[func] = function() {
-		var $args = arguments;
+		return this;
+	};
+
+	Node.prototype.copy = function() {
+		var clone = this.cloneNode(false);
+
+		if (this.µEventCache) {
+			this.µEventCache.each(function() {
+				clone.addEventListener.apply(clone, this);
+			});
+		}
+
+		Array.prototype.slice.call(this.childNodes).each(function() {
+			clone.appendChild(this.copy());
+		});
+
+		return clone;
+	};
+
+	Array.prototype.one = function(selector) {
+		var list = [];
+
+		this.forEach(function(el) {
+			list.push(el.querySelector(selector));
+		});
+
+		return list;
+	};
+
+	Array.prototype.all = function(selector) {
+		var list = [];
+
+		this.forEach(function(el) {
+			list = list.concat(Array.prototype.slice.call(el.querySelectorAll(selector)));
+		});
+
+		return list;
+	};
+
+	Array.prototype.each = function(func) {
+		this.forEach(function(el, i) {
+			func.bind(el)(i);
+		});
+
+		return this;
+	};
+
+	Array.prototype.add = function() {
+		var args = arguments;
 
 		return this.each(function() {
-			this[func].apply(this, $args);
+			for (var i = 0; i < args.length; i++) {
+				if (Object.prototype.toString.call(args[i]) === "[object Array]") {
+					this.add.apply(this, args[i].copy());
+				} else {
+					this.appendChild(typeof args[i] === "string" ? document.createTextNode(args[i]) : args[i].copy());
+				}
+			}
 		});
 	};
-});
 
-(function() {
+	Array.prototype.copy = function() {
+		var clones = [];
+
+		this.each(function() {
+			clones.push(this.copy());
+		});
+
+		return clones;
+	};
+
+	["on", "css", "attr"].each(function() {
+		var func = this + "";
+
+		Array.prototype[func] = function() {
+			var $args = arguments;
+
+			return this.each(function() {
+				this[func].apply(this, $args);
+			});
+		};
+	});
+
 	var tags = {
 		img: ["src", "alt", "title"],
 		a: ["href"],
@@ -200,4 +208,6 @@ Array.prototype.copy = function() {
 			};
 		})(tag, nestedTags[tag]);
 	}
+
+	window.µ = µ;
 })();
