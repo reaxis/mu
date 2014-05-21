@@ -59,26 +59,26 @@ Or you can go crazy!
 
 ### Using µ
 
-**µ.one(selector)** returns the first element in document found by `selector`.
-**µ.all(selector)** returns all elements in document found by `selector`.
-**µ.create(tag)** returns a new element.
+- **µ.one(selector)** returns the first element in document found by `selector`.
+- **µ.all(selector)** returns all elements in document found by `selector`.
+- **µ.create(tag)** returns a new element.
 
 ### µ creation shorthand
 
 You can create elements using the following shorthand functions. All arguments are optional, and adding more arguments basically works like `.add()` (see below).
 
-**µ.a(href)** creates an anchor.
-**µ.img(src, alt, title)** creates an image.
-**µ.input(type, value)** you guessed it.
-**µ.option(value)** yes.
-**µ.abbr(title)** also.
-**µ.canvas(width, height)** and a canvas.
+- **µ.a(href)** creates an anchor.
+- **µ.img(src, alt, title)** creates an image.
+- **µ.input(type, value)** you guessed it.
+- **µ.option(value)** yes.
+- **µ.abbr(title)** also.
+- **µ.canvas(width, height)** and a canvas.
 
 And some special, nested tags:
 
-**µ.ul(liText, liText, liText)** creates a list.
-**µ.ol(liText, liText, liText)** creates a numbered list.
-**µ.table([tdText, tdText], [tdText, tdText])** creates a table.
+- **µ.ul(liText, liText, liText)** creates a list.
+- **µ.ol(liText, liText, liText)** creates a numbered list.
+- **µ.table([tdText, tdText], [tdText, tdText])** creates a table.
 
 There are also shorthands for the following tags, without specific attributes: **section, nav, article, aside, header, footer, address, main, div, span, p, strong, em, h1, h2, h3, h4, h5, h6, li, td**
 
@@ -86,14 +86,14 @@ There are also shorthands for the following tags, without specific attributes: *
 
 When using a callback function, like in `.each()` and `.on()`, `this` refers to the current element or the element which received the event.
 
-**.one(selector)** returns the first element found by `selector`.
-**.all(selector)** returns all elements found by `selector`.
-**.each(func)** loops over element(s) and runs `func` on each one. `func` receives one argument: the index of the current element.
-**.on(evt, func)** adds an event listener `func` for event type `evt`.
-**.add(el[, el2, el3, ...])** adds new element(s) or TextNodes (when the argument is a string) to element(s).
-**.css({property: value})** changes the style of element(s).
-**.attr({attribute: value})** changes an attribute.
-**.copy()** copies element(s), complete with children and events (used internally by `.add()`).
+- **.one(selector)** returns the first element found by `selector`.
+- **.all(selector)** returns all elements found by `selector`.
+- **.each(func)** loops over element(s) and runs `func` on each one. `func` receives one argument: the index of the current element.
+- **.on(evt, func)** adds an event listener `func` for event type `evt`.
+- **.add(el[, el2, el3, ...])** adds new element(s) or TextNodes (when the argument is a string) to element(s).
+- **.css({property: value})** changes the style of element(s).
+- **.attr({attribute: value})** changes an attribute.
+- **.copy()** copies element(s), complete with children and events (used internally by `.add()`).
 
 ## Compatibility
 
