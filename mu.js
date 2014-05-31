@@ -65,6 +65,8 @@
 		return this;
 	};
 
+	Window.prototype.on = Node.prototype.on;
+
 	Node.prototype.add = function() {
 		for (var i = 0; i < arguments.length; i++) {
 			if (isArray(arguments[i])) {
