@@ -1,3 +1,11 @@
+describe("module", function() {
+	it("should work properly with CommonJS");
+
+	it("should work properly with RequireJS");
+
+	it("should create a global with <script>");
+});
+
 describe("µ", function() {
 	describe(".one", function() {
 		it("always returns only 1 element", function() {
@@ -98,6 +106,24 @@ describe("shorthand creation functions", function() {
 			expect(µ.input("text", "in").outerHTML).toBe('<input name="in" type="text">');
 		});
 	});
+
+	describe(".table", function() {
+		it("should generate proper table", function() {
+			expect(µ.table([1, 2], [3, 4]).outerHTML).toBe("<table><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></table>");
+		});
+	});
+
+	describe(".ul", function() {
+		it("should generate proper unordered list", function() {
+			expect(µ.ul(1, 2).outerHTML).toBe("<ul><li>1</li><li>2</li></ul>");
+		});
+	});
+
+	describe("combined", function() {
+		it("should generate proper output for nested calls", function() {
+			expect(µ.section(µ.div(µ.h1("Title"), µ.p(µ.em("Emphasis")))).outerHTML).toBe("<section><div><h1>Title</h1><p><em>Emphasis</em></p></div></section>");
+		});
+	})
 });
 
 /******************************************************************************/
@@ -114,6 +140,12 @@ describe("Node", function() {
 
 		it("returns something falsy when element is not found", function() {
 			expect(µ.one("div").one("address")).toBeFalsy();
+		});
+
+		it("also works with newly generated elements", function() {
+			var div = µ.div(µ.span("wut"));
+			expect(div.one("span")).toBeDefined();
+			expect(div.one("span").text()).toBe("wut");
 		});
 
 		it("gives an error when called with Number", function() {
@@ -140,6 +172,13 @@ describe("Node", function() {
 
 		it("can return an emtpy Array", function() {
 			expect(µ.one("div").all("address").length).toBe(0);
+		});
+
+		it("also works with newly generated elements", function() {
+			var div = µ.div(µ.span("wut"), µ.span("hoi"));
+			expect(div.all("span")).toBeDefined();
+			expect(div.all("span").length).toBe(2);
+			expect(div.all("span")[0].text()).toBe("wut");
 		});
 
 		it("gives an error when called with Number", function() {
