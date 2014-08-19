@@ -13,6 +13,9 @@
 
 	function µ() {};
 
+/******************************************************************************/
+// Main functions
+
 	µ.one = function(selector) {
 		return document.querySelector(selector);
 	};
@@ -26,6 +29,7 @@
 	};
 
 /******************************************************************************/
+// Helper functions
 
 	function toCamelCase(s) {
 		return s.replace(/-(.)/g, function(a, b) {return b.toUpperCase();});
@@ -34,6 +38,9 @@
 	function isArray(a) {
 		return {}.toString.call(a) === "[object Array]";
 	};
+
+/******************************************************************************/
+// Node prototype extensions
 
 	Node.prototype.one = function(selector) {
 		return this.querySelector(selector);
@@ -132,6 +139,7 @@
 	};
 
 /******************************************************************************/
+// Array prototype extensions
 
 	Array.prototype.each = function(func) {
 		this.forEach(function(el, i) {
@@ -175,6 +183,7 @@
 		});
 	};
 
+	// copy Node functions to Array prototype
 	"on css attr empty text copy".split(" ").each(function() {
 		var func = this + "";
 
@@ -191,7 +200,9 @@
 	});
 
 /******************************************************************************/
+// Creation shorthand
 
+	// tags with attributes
 	var tags = {
 		img: ["src", "alt", "title"],
 		a: ["href"],
@@ -201,6 +212,7 @@
 		canvas: ["width", "height"]
 	},
 
+	// tags with automatically nested elements
 	nestedTags = {
 		ul: "li",
 		ol: "li",
@@ -208,10 +220,12 @@
 		table: "tr"
 	};
 
+	// tags without nesting or attributes
 	"section nav article aside header footer address main div span p strong em h1 h2 h3 h4 h5 h6 li td".split(" ").each(function() {
 		tags[this] = [];
 	});
 
+	// add tags to µ as shorthand functions
 	for (var tag in tags) {
 		µ[tag] = (function(t, attrs) {
 			return function() {
@@ -221,23 +235,18 @@
 					attributes[attrs[i]] = arguments[i];
 				}
 
-				var el = µ.create(t).attr(attributes);
-
-				return el.add.apply(el, [].slice.call(arguments, i));
+				return µ.create(t).attr(attributes).add([].slice.call(arguments, i));
 			};
 		})(tag, tags[tag]);
 	}
 
+	// add nested tags to µ as shorthand functions
 	for (var tag in nestedTags) {
 		µ[tag] = (function(t, child) {
 			return function() {
-				var el = µ.create(t);
-
-				for (var i = 0; i < arguments.length; i++) {
-					el.add(µ[child].apply(null, isArray(arguments[i]) ? arguments[i] : [arguments[i]]));
-				}
-
-				return el;
+				return µ.create(t).add([].slice.call(arguments).map(function(arg) {
+					return µ[child].apply(null, isArray(arg) ? arg : [arg]);
+				}));
 			};
 		})(tag, nestedTags[tag]);
 	}

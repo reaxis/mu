@@ -99,6 +99,15 @@ describe("shorthand creation functions", function() {
 		it("should generate proper image", function() {
 			expect(µ.img("logo.png", "Logo", "Logo").outerHTML).toBe('<img title="Logo" alt="Logo" src="logo.png">');
 		});
+
+		it("should work with too many arguments", function() {
+			expect(µ.img("logo.png", "Logo", "Logo", "a", "b").outerHTML).toBe('<img title="Logo" alt="Logo" src="logo.png">');
+		});
+
+		it("should work with fewer arguments", function() {
+			expect(µ.img("logo.png", "Logo").outerHTML).toBe('<img alt="Logo" src="logo.png">');
+			expect(µ.img("logo.png").outerHTML).toBe('<img src="logo.png">');
+		});
 	});
 
 	describe(".input", function() {
@@ -116,6 +125,16 @@ describe("shorthand creation functions", function() {
 	describe(".ul", function() {
 		it("should generate proper unordered list", function() {
 			expect(µ.ul(1, 2).outerHTML).toBe("<ul><li>1</li><li>2</li></ul>");
+		});
+	});
+
+	describe(".abbr", function() {
+		it("should generate proper abbreviation", function() {
+			expect(µ.abbr("HyperText Markup Language", "HTML").outerHTML).toBe('<abbr title="HyperText Markup Language">HTML</abbr>');
+		});
+
+		it("should work with more arguments", function() {
+			expect(µ.abbr("HyperText Markup Language", "HTML", "a").outerHTML).toBe('<abbr title="HyperText Markup Language">HTMLa</abbr>');
 		});
 	});
 
