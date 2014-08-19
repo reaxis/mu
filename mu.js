@@ -229,13 +229,12 @@
 	for (var tag in tags) {
 		µ[tag] = (function(t, attrs) {
 			return function() {
-				var attributes = {};
+				var args = [].slice.call(arguments);
 
-				for (var i = 0; i < arguments.length && i < attrs.length; i++) {
-					attributes[attrs[i]] = arguments[i];
-				}
-
-				return µ.create(t).attr(attributes).add([].slice.call(arguments, i));
+				return µ.create(t).attr(attrs.reduce(function(a, b) {
+					if (args.length) a[b] = args.shift();
+					return a;
+				}, {})).add(args);
 			};
 		})(tag, tags[tag]);
 	}
