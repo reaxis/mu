@@ -14,21 +14,6 @@
 	function µ() {};
 
 /******************************************************************************/
-// Main functions
-
-	µ.one = function(selector) {
-		return document.querySelector(selector);
-	};
-
-	µ.all = function(selector) {
-		return toArray(document.querySelectorAll(selector));
-	};
-
-	µ.create = function(tag) {
-		return document.createElement(tag);
-	};
-
-/******************************************************************************/
 // Helper functions
 
 	function toCamelCase(s) {
@@ -41,6 +26,21 @@
 
 	function toArray(a) {
 		return [].slice.call(a);
+	};
+
+/******************************************************************************/
+// Main functions
+
+	µ.one = function(selector) {
+		return document.querySelector(selector);
+	};
+
+	µ.all = function(selector) {
+		return toArray(document.querySelectorAll(selector));
+	};
+
+	µ.create = function(tag) {
+		return document.createElement(tag);
 	};
 
 /******************************************************************************/
@@ -79,15 +79,15 @@
 	Window.prototype.on = Node.prototype.on;
 
 	Node.prototype.add = function() {
-		for (var i = 0; i < arguments.length; i++) {
-			if (isArray(arguments[i])) {
-				this.add.apply(this, arguments[i]);
+		return toArray(arguments).reduce(function(self, arg) {
+			if (isArray(arg)) {
+				self.add.apply(self, arg);
 			} else {
-				this.appendChild(!!arguments[i].nodeType ? arguments[i] : document.createTextNode(arguments[i]));
+				self.appendChild(!!arg.nodeType ? arg : document.createTextNode(arg));
 			}
-		}
 
-		return this;
+			return self;
+		}, this);
 	};
 
 	Node.prototype.css = function(rules) {
@@ -135,11 +135,7 @@
 			});
 		}
 
-		Array.prototype.slice.call(this.childNodes).each(function() {
-			clone.appendChild(this.copy());
-		});
-
-		return clone;
+		return clone.add.apply(clone, toArray(this.childNodes));
 	};
 
 /******************************************************************************/
