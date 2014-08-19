@@ -21,7 +21,7 @@
 	};
 
 	µ.all = function(selector) {
-		return [].slice.call(document.querySelectorAll(selector));
+		return toArray(document.querySelectorAll(selector));
 	};
 
 	µ.create = function(tag) {
@@ -39,6 +39,10 @@
 		return {}.toString.call(a) === "[object Array]";
 	};
 
+	function toArray(a) {
+		return [].slice.call(a);
+	};
+
 /******************************************************************************/
 // Node prototype extensions
 
@@ -47,7 +51,7 @@
 	};
 
 	Node.prototype.all = function(selector) {
-		return [].slice.call(this.querySelectorAll(selector));
+		return toArray(this.querySelectorAll(selector));
 	};
 
 	Node.prototype.each = function(func) {
@@ -163,7 +167,7 @@
 		var list = [];
 
 		this.each(function() {
-			list = list.concat([].slice.call(this.querySelectorAll(selector)));
+			list = list.concat(toArray(this.querySelectorAll(selector)));
 		});
 
 		return list;
@@ -229,7 +233,7 @@
 	for (var tag in tags) {
 		µ[tag] = (function(t, attrs) {
 			return function() {
-				var args = [].slice.call(arguments);
+				var args = toArray(arguments);
 
 				return µ.create(t).attr(attrs.reduce(function(a, b) {
 					if (args.length) a[b] = args.shift();
@@ -243,7 +247,7 @@
 	for (var tag in nestedTags) {
 		µ[tag] = (function(t, child) {
 			return function() {
-				return µ.create(t).add([].slice.call(arguments).map(function(arg) {
+				return µ.create(t).add(toArray(arguments).map(function(arg) {
 					return µ[child].apply(null, isArray(arg) ? arg : [arg]);
 				}));
 			};
