@@ -18,7 +18,7 @@
 	};
 
 	µ.all = function(selector) {
-		return Array.prototype.slice.call(document.querySelectorAll(selector));
+		return [].slice.call(document.querySelectorAll(selector));
 	};
 
 	µ.create = function(tag) {
@@ -40,7 +40,7 @@
 	};
 
 	Node.prototype.all = function(selector) {
-		return Array.prototype.slice.call(this.querySelectorAll(selector));
+		return [].slice.call(this.querySelectorAll(selector));
 	};
 
 	Node.prototype.each = function(func) {
@@ -155,7 +155,7 @@
 		var list = [];
 
 		this.each(function() {
-			list = list.concat(Array.prototype.slice.call(this.querySelectorAll(selector)));
+			list = list.concat([].slice.call(this.querySelectorAll(selector)));
 		});
 
 		return list;
@@ -223,7 +223,7 @@
 
 				var el = µ.create(t).attr(attributes);
 
-				return el.add.apply(el, Array.prototype.slice.call(arguments, i));
+				return el.add.apply(el, [].slice.call(arguments, i));
 			};
 		})(tag, tags[tag]);
 	}
