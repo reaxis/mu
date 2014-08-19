@@ -115,9 +115,7 @@
 	};
 
 	Node.prototype.empty = function() {
-		while (this.firstChild) {
-		    this.removeChild(this.firstChild);
-		}
+		this.innerHTML = "";
 
 		return this;
 	}
