@@ -32,7 +32,7 @@
 	};
 
 	function isArray(a) {
-		return Object.prototype.toString.call(a) === "[object Array]";
+		return {}.toString.call(a) === "[object Array]";
 	};
 
 	Node.prototype.one = function(selector) {
