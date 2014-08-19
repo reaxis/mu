@@ -422,7 +422,14 @@ describe("Array", function() {
 
 	describe(".on", function() {});
 
-	describe(".add", function() {});
+	describe(".add", function() {
+		it("generates correct HTML", function() {
+			var ps = µ.div(µ.p("a"), µ.p("b"));
+			ps.all("p").add(µ.span());
+
+			expect(ps.outerHTML).toEqual("<div><p>a<span></span></p><p>b<span></span></p></div>");
+		});
+	});
 
 	describe(".css", function() {});
 

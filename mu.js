@@ -173,13 +173,15 @@
 		var args = arguments;
 
 		return this.each(function() {
-			for (var i = 0; i < args.length; i++) {
-				if (isArray(args[i])) {
-					this.add.apply(this, args[i].copy());
+			return toArray(args).reduce(function(self, arg) {
+				if (isArray(arg)) {
+					self.add.apply(self, arg.copy());
 				} else {
-					this.appendChild(!!args[i].nodeType ? args[i].copy() : document.createTextNode(args[i]));
+					self.appendChild(!!arg.nodeType ? arg.copy() : document.createTextNode(arg));
 				}
-			}
+
+				return self;
+			}, this);
 		});
 	};
 
