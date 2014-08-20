@@ -46,142 +46,154 @@
 /******************************************************************************/
 // Node prototype extensions
 
-	Node.prototype.one = function(selector) {
-		return this.querySelector(selector);
-	};
+	var nodeFunctions = {
+		one: function(selector) {
+			return this.querySelector(selector);
+		},
 
-	Node.prototype.all = function(selector) {
-		return toArray(this.querySelectorAll(selector));
-	};
+		all: function(selector) {
+			return toArray(this.querySelectorAll(selector));
+		},
 
-	Node.prototype.each = function(func) {
-		func.bind(this)(0);
+		each: function(func) {
+			func.bind(this)(0);
 
-		return this;
-	};
+			return this;
+		},
 
-	Node.prototype.µAddEventListener = Node.prototype.addEventListener;
+		µAddEventListener: Node.prototype.addEventListener,
 
-	Node.prototype.addEventListener = function() {
-		this.µEventCache = this.µEventCache || [];
+		addEventListener: function() {
+			this.µEventCache = this.µEventCache || [];
 
-		this.µEventCache.push(arguments);
+			this.µEventCache.push(arguments);
 
-		this.µAddEventListener.apply(this, arguments);
-	};
+			this.µAddEventListener.apply(this, arguments);
+		},
 
-	Node.prototype.on = function(evt, func) {
-		this.addEventListener(evt, func);
+		on: function(evt, func) {
+			this.addEventListener(evt, func);
 
-		return this;
-	};
+			return this;
+		},
 
-	Window.prototype.on = Node.prototype.on;
-
-	Node.prototype.add = function() {
-		return toArray(arguments).reduce(function(self, arg) {
-			if (isArray(arg)) {
-				self.add.apply(self, arg);
-			} else {
-				self.appendChild(!!arg.nodeType ? arg : document.createTextNode(arg));
-			}
-
-			return self;
-		}, this);
-	};
-
-	Node.prototype.css = function(rules) {
-		if (typeof rules === "string") {
-			return this.style[toCamelCase(rules)];
-		}
-
-		for (var rule in rules) {
-			this.style[toCamelCase(rule)] = rules[rule];
-		}
-
-		return this;
-	};
-
-	Node.prototype.attr = function(rules) {
-		if (typeof rules === "string") {
-			return this[rules];
-		}
-
-		for (var rule in rules) {
-			this[rule] = rules[rule];
-		}
-
-		return this;
-	};
-
-	Node.prototype.empty = function() {
-		this.innerHTML = "";
-
-		return this;
-	}
-
-	Node.prototype.text = function(t) {
-		return typeof t === "undefined" ? this.textContent : this.attr({textContent: t});
-	}
-
-	Node.prototype.copy = function() {
-		var clone = this.cloneNode(false);
-
-		if (this.µEventCache) {
-			this.µEventCache.each(function() {
-				clone.addEventListener.apply(clone, this);
-			});
-		}
-
-		return clone.add.apply(clone, toArray(this.childNodes));
-	};
-
-/******************************************************************************/
-// Array prototype extensions
-
-	Array.prototype.each = function(func) {
-		this.forEach(function(el, i) {
-			func.bind(el)(i);
-		});
-
-		return this;
-	};
-
-	Array.prototype.one = function(selector) {
-		var list = [];
-
-		this.each(function() {
-			this.querySelector(selector) && list.push(this.querySelector(selector));
-		});
-
-		return list;
-	};
-
-	Array.prototype.all = function(selector) {
-		var list = [];
-
-		this.each(function() {
-			list = list.concat(toArray(this.querySelectorAll(selector)));
-		});
-
-		return list;
-	};
-
-	Array.prototype.add = function() {
-		var args = arguments;
-
-		return this.each(function() {
-			return toArray(args).reduce(function(self, arg) {
+		add: function() {
+			return toArray(arguments).reduce(function(self, arg) {
 				if (isArray(arg)) {
-					self.add.apply(self, arg.copy());
+					self.add.apply(self, arg);
 				} else {
-					self.appendChild(!!arg.nodeType ? arg.copy() : document.createTextNode(arg));
+					self.appendChild(!!arg.nodeType ? arg : document.createTextNode(arg));
 				}
 
 				return self;
 			}, this);
-		});
+		},
+
+		css: function(rules) {
+			if (typeof rules === "string") {
+				return this.style[toCamelCase(rules)];
+			}
+
+			for (var rule in rules) {
+				this.style[toCamelCase(rule)] = rules[rule];
+			}
+
+			return this;
+		},
+
+		attr: function(rules) {
+			if (typeof rules === "string") {
+				return this[rules];
+			}
+
+			for (var rule in rules) {
+				this[rule] = rules[rule];
+			}
+
+			return this;
+		},
+
+		empty: function() {
+			this.innerHTML = "";
+
+			return this;
+		},
+
+		text: function(t) {
+			return typeof t === "undefined" ? this.textContent : this.attr({textContent: t});
+		},
+
+		copy: function() {
+			var clone = this.cloneNode(false);
+
+			if (this.µEventCache) {
+				this.µEventCache.each(function() {
+					clone.addEventListener.apply(clone, this);
+				});
+			}
+
+			return clone.add.apply(clone, toArray(this.childNodes));
+		}
 	};
+
+	for (var func in nodeFunctions) {
+		Node.prototype[func] = nodeFunctions[func];
+	};
+
+	Window.prototype.on = Node.prototype.on;
+
+/******************************************************************************/
+// Array prototype extensions
+
+	var arrayFunctions = {
+		each: function(func) {
+			this.forEach(function(el, i) {
+				func.bind(el)(i);
+			});
+
+			return this;
+		},
+
+		one: function(selector) {
+			var list = [];
+
+			this.each(function() {
+				this.querySelector(selector) && list.push(this.querySelector(selector));
+			});
+
+			return list;
+		},
+
+		all: function(selector) {
+			var list = [];
+
+			this.each(function() {
+				list = list.concat(toArray(this.querySelectorAll(selector)));
+			});
+
+			return list;
+		},
+
+		add: function() {
+			var args = arguments;
+
+			return this.each(function() {
+				return toArray(args).reduce(function(self, arg) {
+					if (isArray(arg)) {
+						self.add.apply(self, arg.copy());
+					} else {
+						self.appendChild(!!arg.nodeType ? arg.copy() : document.createTextNode(arg));
+					}
+
+					return self;
+				}, this);
+			});
+		}
+	};
+
+	for (var func in arrayFunctions) {
+		Array.prototype[func] = arrayFunctions[func];
+	}
 
 	// copy Node functions to Array prototype
 	"on css attr empty text copy".split(" ").each(function() {
