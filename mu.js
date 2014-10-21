@@ -7,6 +7,7 @@
 		define(definition);
 	} else { // <script>
 		µ = definition();
+		mu = definition();
 	}
 })(function() {
 	"use strict";
