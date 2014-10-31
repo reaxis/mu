@@ -305,9 +305,13 @@ describe("Node", function() {
 	});
 
 	describe(".text", function() {
-		it("sets textContent for Node when called with string");
+		it("sets textContent for Node when called with string", function() {
+			expect(µ.div().text("hoi").innerHTML).toBe("hoi");
+		});
 
-		it("returns textContent for Node when called with nothing");
+		it("returns textContent for Node when called with nothing", function() {
+			expect(µ.div("hoi").text()).toBe("hoi");
+		});
 	});
 
 	describe(".copy", function() {
@@ -331,6 +335,8 @@ describe("Node", function() {
 			var handler = function() {},
 				div = µ.div(µ.span().on("click", handler)),
 				clone = div.copy();
+
+			expect(clone.outerHTML).toEqual("<div><span></span></div>");
 
 			expect(clone.µEventCache).toBeUndefined();
 
@@ -420,7 +426,17 @@ describe("Array", function() {
 		});
 	});
 
-	describe(".on", function() {});
+	describe(".on", function() {
+		it("adds an event as eventListener and to µEventCache", function() {
+			var handler = function() {alert("yiiih");},
+				ps = µ.div(µ.p("a"), µ.p("b"));
+
+			ps.all("p").on("click", handler);
+
+			expect(ps.one("p").µEventCache[0][0]).toBe("click");
+			expect(ps.one("p").µEventCache[0][1]).toEqual(handler);
+		});
+	});
 
 	describe(".add", function() {
 		it("generates correct HTML", function() {
