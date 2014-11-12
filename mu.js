@@ -104,11 +104,11 @@
 
 		attr: function(rules) {
 			if (typeof rules === "string") {
-				return this[rules];
+				return this.getAttribute(rules);
 			}
 
 			for (var rule in rules) {
-				this[rule] = rules[rule];
+				this.setAttribute(rule, rules[rule]);
 			}
 
 			return this;
@@ -125,7 +125,12 @@
 		},
 
 		text: function(t) {
-			return typeof t === "undefined" ? this.textContent : this.attr({textContent: t});
+			if (typeof t === "undefined") {
+				return this.textContent;
+			} else {
+				this.textContent = t;
+				return this;
+			}
 		},
 
 		copy: function() {
