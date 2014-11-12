@@ -120,6 +120,10 @@
 			return this;
 		},
 
+		remove: function() {
+			return this.parentNode.removeChild(this);
+		},
+
 		text: function(t) {
 			return typeof t === "undefined" ? this.textContent : this.attr({textContent: t});
 		},
@@ -197,7 +201,7 @@
 	}
 
 	// copy Node functions to Array prototype
-	"on css attr empty text copy".split(" ").each(function() {
+	"on css attr empty remove text copy".split(" ").each(function() {
 		var func = this + "";
 
 		Array.prototype[func] = function() {

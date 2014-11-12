@@ -97,6 +97,7 @@ When using a callback function, like in `.each()` and `.on()`, `this` refers to 
 - **.attr({attribute: value})** changes an attribute.
 - **.attr(attribute)** returns value(s) of attribute.
 - **.empty()** empties element.
+- **.remove()** removes and returns element.
 - **.text(text)** sets textContent of element.
 - **.text()** returns textContent of element (doesn't work on Arrays).
 - **.copy()** copies element(s), complete with children and events (used internally by `.add()`).
