@@ -21,19 +21,19 @@ describe("µ", function() {
 		});
 
 		it("gives an error when called with Number", function() {
-			try {µ.one(2);} catch(e) {expect("error").toBe("error");}
+			expect(function() {µ.one(2);}).toThrow();
 		});
 
 		it("gives an error when called with element", function() {
-			try {µ.one(µ.div());} catch(e) {expect("error").toBe("error");}
+			expect(function() {µ.one(µ.div());}).toThrow();
 		});
 
 		it("gives an error when called with Date", function() {
-			try {µ.one(new Date());} catch(e) {expect("error").toBe("error");}
+			expect(function() {µ.one(new Date());}).toThrow();
 		});
 
 		it("gives an error when called with Array", function() {
-			try {µ.one([]);} catch(e) {expect("error").toBe("error");}
+			expect(function() {µ.one([]);}).toThrow();
 		});
 	});
 
@@ -47,19 +47,19 @@ describe("µ", function() {
 		});
 
 		it("gives an error when called with Number", function() {
-			try {µ.all(2);} catch(e) {expect("error").toBe("error");}
+			expect(function() {µ.all(2);}).toThrow();
 		});
 
 		it("gives an error when called with element", function() {
-			try {µ.all(µ.div());} catch(e) {expect("error").toBe("error");}
+			expect(function() {µ.all(µ.div());}).toThrow();
 		});
 
 		it("gives an error when called with Date", function() {
-			try {µ.all(new Date());} catch(e) {expect("error").toBe("error");}
+			expect(function() {µ.all(new Date());}).toThrow();
 		});
 
 		it("gives an error when called with Array", function() {
-			try {µ.all([]);} catch(e) {expect("error").toBe("error");}
+			expect(function() {µ.all([]);}).toThrow();
 		});
 	});
 
@@ -168,19 +168,19 @@ describe("Node", function() {
 		});
 
 		it("gives an error when called with Number", function() {
-			try {µ.one("div").one(2);} catch(e) {expect("error").toBe("error");}
+			expect(function() {µ.one("div").one(2);}).toThrow();
 		});
 
 		it("gives an error when called with element", function() {
-			try {µ.one("div").one(µ.div());} catch(e) {expect("error").toBe("error");}
+			expect(function() {µ.one("div").one(µ.div());}).toThrow();
 		});
 
 		it("gives an error when called with Date", function() {
-			try {µ.one("div").one(new Date());} catch(e) {expect("error").toBe("error");}
+			expect(function() {µ.one("div").one(new Date());}).toThrow();
 		});
 
 		it("gives an error when called with Array", function() {
-			try {µ.one("div").one([]);} catch(e) {expect("error").toBe("error");}
+			expect(function() {µ.one("div").one([]);}).toThrow();
 		});
 	});
 
@@ -201,19 +201,19 @@ describe("Node", function() {
 		});
 
 		it("gives an error when called with Number", function() {
-			try {µ.one("div").all(2);} catch(e) {expect("error").toBe("error");}
+			expect(function() {µ.one("div").all(2);}).toThrow();
 		});
 
 		it("gives an error when called with element", function() {
-			try {µ.one("div").all(µ.div());} catch(e) {expect("error").toBe("error");}
+			expect(function() {µ.one("div").all(µ.div());}).toThrow();
 		});
 
 		it("gives an error when called with Date", function() {
-			try {µ.one("div").all(new Date());} catch(e) {expect("error").toBe("error");}
+			expect(function() {µ.one("div").all(new Date());}).toThrow();
 		});
 
 		it("gives an error when called with Array", function() {
-			try {µ.one("div").all([]);} catch(e) {expect("error").toBe("error");}
+			expect(function() {µ.one("div").all([]);}).toThrow();
 		});
 	});
 
@@ -376,19 +376,19 @@ describe("Array", function() {
 		});
 
 		it("gives an error when called with Number", function() {
-			try {container.one(2);} catch(e) {expect("error").toBe("error");}
+			expect(function() {container.one(2);}).toThrow();
 		});
 
 		it("gives an error when called with element", function() {
-			try {container.one(µ.div());} catch(e) {expect("error").toBe("error");}
+			expect(function() {container.one(µ.div());}).toThrow();
 		});
 
 		it("gives an error when called with Date", function() {
-			try {container.one(new Date());} catch(e) {expect("error").toBe("error");}
+			expect(function() {container.one(new Date());}).toThrow();
 		});
 
 		it("gives an error when called with Array", function() {
-			try {container.one([]);} catch(e) {expect("error").toBe("error");}
+			expect(function() {container.one([]);}).toThrow();
 		});
 	});
 
@@ -404,19 +404,19 @@ describe("Array", function() {
 		});
 
 		it("gives an error when called with Number", function() {
-			try {container.all(2);} catch(e) {expect("error").toBe("error");}
+			expect(function() {container.all(2);}).toThrow();
 		});
 
 		it("gives an error when called with element", function() {
-			try {container.all(µ.div());} catch(e) {expect("error").toBe("error");}
+			expect(function() {container.all(µ.div());}).toThrow();
 		});
 
 		it("gives an error when called with Date", function() {
-			try {container.all(new Date());} catch(e) {expect("error").toBe("error");}
+			expect(function() {container.all(new Date());}).toThrow();
 		});
 
 		it("gives an error when called with Array", function() {
-			try {container.all([]);} catch(e) {expect("error").toBe("error");}
+			expect(function() {container.all([]);}).toThrow();
 		});
 	});
 
