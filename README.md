@@ -96,6 +96,8 @@ When using a callback function, like in `.each()` and `.on()`, `this` refers to 
 - **.css(property)** returns value(s) of property (only works with properties set by JavaScript).
 - **.attr({attribute: value})** changes an attribute.
 - **.attr(attribute)** returns value(s) of attribute.
+- **.cls(class)** adds a class.
+- **.cls(class, class2)** adds multiple classes.
 - **.empty()** empties element.
 - **.remove()** removes and returns element.
 - **.text(text)** sets textContent of element.
