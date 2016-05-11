@@ -12,22 +12,22 @@
 })(function() {
 	"use strict";
 
-	function µ() {};
+	function µ() {}
 
 /******************************************************************************/
 // Helper functions
 
 	function toCamelCase(s) {
 		return s.replace(/-(.)/g, function(a, b) {return b.toUpperCase();});
-	};
+	}
 
 	function isArray(a) {
 		return {}.toString.call(a) === "[object Array]";
-	};
+	}
 
 	function toArray(a) {
 		return [].slice.call(a);
-	};
+	}
 
 /******************************************************************************/
 // Main functions
@@ -148,7 +148,7 @@
 
 	for (var func in nodeFunctions) {
 		Node.prototype[func] = nodeFunctions[func];
-	};
+	}
 
 	Window.prototype.on = Node.prototype.on;
 

@@ -142,7 +142,7 @@ describe("shorthand creation functions", function() {
 		it("should generate proper output for nested calls", function() {
 			expect(µ.section(µ.div(µ.h1("Title"), µ.p(µ.em("Emphasis")))).outerHTML).toBe("<section><div><h1>Title</h1><p><em>Emphasis</em></p></div></section>");
 		});
-	})
+	});
 });
 
 /******************************************************************************/
