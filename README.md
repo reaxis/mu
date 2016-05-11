@@ -96,7 +96,7 @@ When using a callback function, like in `.each()` and `.on()`, `this` refers to 
 - **.css(property)** returns value(s) of property (only works with properties set by JavaScript).
 - **.attr({attribute: value})** changes an attribute.
 - **.attr(attribute)** returns value(s) of attribute.
-- **.cls(class[, class2, class3, ...])** adds classes.
+- **.cls(class[, class2, class3, ...])** adds classes (adding multiple classes doesn't work on IE).
 - **.empty()** empties element.
 - **.remove()** removes and returns element.
 - **.text(text)** sets textContent of element.
@@ -105,10 +105,11 @@ When using a callback function, like in `.each()` and `.on()`, `this` refers to 
 
 ## Compatibility
 
-So far I've tested this on Firefox 29 and Chrome 34.
+So far I've tested this on Firefox 46 and Chrome 50.
 
-According to [caniuse.com](http://caniuse.com) and other sources, theoretically it should work on Firefox 3.5+, Chrome 4.0+, Internet Explorer 9.0+, Safari 3.1+, Opera 10.0+, iOS Safari 3.2+, Android browser 2.1+ and Chrome for Android 33.0+, based on the following properties:
+According to [caniuse.com](http://caniuse.com) and other sources, theoretically it should work on Firefox 3.6+, Chrome 8.0+, Internet Explorer 10.0+, Edge 12+, Safari 5.1+, Opera 11.50+, iOS Safari 5.0+, Android browser 3.0+ and Chrome for Android 33.0+, based on the following properties:
 
 - [querySelector/querySelectorAll](http://caniuse.com/queryselector)
 - [Array.prototype.forEach](http://kangax.github.io/es5-compat-table/#Array.prototype.forEach)
 - [addEventListener](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget.addEventListener)
+- [classList](https://developer.mozilla.org/en/docs/Web/API/Element/classList)
