@@ -114,6 +114,12 @@
 			return this;
 		},
 
+		cls: function() {
+			this.classList.add.apply(this.classList, arguments);
+
+			return this;
+		},
+
 		empty: function() {
 			this.innerHTML = "";
 
@@ -206,7 +212,7 @@
 	}
 
 	// copy Node functions to Array prototype
-	"on css attr empty remove text copy".split(" ").each(function() {
+	"on css attr cls empty remove text copy".split(" ").each(function() {
 		var func = this + "";
 
 		Array.prototype[func] = function() {

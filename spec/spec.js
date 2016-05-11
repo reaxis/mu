@@ -298,6 +298,20 @@ describe("Node", function() {
 		});
 	});
 
+	describe(".cls", function() {
+		it("adds a class to the Node", function() {
+			expect(µ.div().cls("sup").className).toBe("sup");
+		});
+
+		it("adds multiple classes to the Node", function() {
+			expect(µ.div().cls("sup", "wup").className).toBe("sup wup");
+		});
+
+		it("gives an error when a class contains a space", function() {
+			expect(function() {µ.div().cls("sup wup");}).toThrow();
+		});
+	});
+
 	describe(".empty", function() {
 		it("empties Node", function() {
 			expect(µ.div("hoi").empty().innerHTML).toBe("");
@@ -450,6 +464,29 @@ describe("Array", function() {
 	describe(".css", function() {});
 
 	describe(".attr", function() {});
+
+	describe(".cls", function() {
+		it("adds a class to the Node", function() {
+			var ps = µ.div(µ.p("a"), µ.p("b"));
+			ps.all("p").cls("sup");
+
+			expect(ps.outerHTML).toEqual('<div><p class="sup">a</p><p class="sup">b</p></div>');
+		});
+
+		it("adds multiple classes to the Node", function() {
+			var ps = µ.div(µ.p("a"), µ.p("b"));
+			ps.all("p").cls("sup", "wup");
+
+			expect(ps.outerHTML).toEqual('<div><p class="sup wup">a</p><p class="sup wup">b</p></div>');
+		});
+
+		it("gives an error when a class contains a space", function() {
+			expect(function() {
+				var ps = µ.div(µ.p("a"), µ.p("b"));
+				ps.all("p").cls("sup wup");
+			}).toThrow();
+		});
+	});
 
 	describe(".empty", function() {});
 
