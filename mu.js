@@ -255,7 +255,7 @@
 
 	// add tags to µ as shorthand functions
 	for (var tag in tags) {
-		µ[tag] = (function(t, attrs) {
+		µ[tag] = µ[tag.toUpperCase()] = (function(t, attrs) {
 			return function() {
 				var args = toArray(arguments);
 
@@ -269,7 +269,7 @@
 
 	// add nested tags to µ as shorthand functions
 	for (var tag in nestedTags) {
-		µ[tag] = (function(t, child) {
+		µ[tag] = µ[tag.toUpperCase()] = (function(t, child) {
 			return function() {
 				return µ.create(t).add(toArray(arguments).map(function(arg) {
 					return µ[child].apply(null, isArray(arg) ? arg : [arg]);

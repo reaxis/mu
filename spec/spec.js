@@ -95,6 +95,12 @@ describe("shorthand creation functions", function() {
 		});
 	});
 
+	describe(".A", function() {
+		it("should generate proper anchor", function() {
+			expect(µ.A("http://awsm.nl", "My cool site").outerHTML).toBe('<a href="http://awsm.nl">My cool site</a>');
+		});
+	});
+
 	describe(".img", function() {
 		it("should generate proper image", function() {
 			expect(µ.img("logo.png", "Logo", "Logo").outerHTML).toBe('<img title="Logo" alt="Logo" src="logo.png">');
@@ -110,9 +116,30 @@ describe("shorthand creation functions", function() {
 		});
 	});
 
+	describe(".IMG", function() {
+		it("should generate proper image", function() {
+			expect(µ.IMG("logo.png", "Logo", "Logo").outerHTML).toBe('<img title="Logo" alt="Logo" src="logo.png">');
+		});
+
+		it("should work with too many arguments", function() {
+			expect(µ.IMG("logo.png", "Logo", "Logo", "a", "b").outerHTML).toBe('<img title="Logo" alt="Logo" src="logo.png">');
+		});
+
+		it("should work with fewer arguments", function() {
+			expect(µ.IMG("logo.png", "Logo").outerHTML).toBe('<img alt="Logo" src="logo.png">');
+			expect(µ.IMG("logo.png").outerHTML).toBe('<img src="logo.png">');
+		});
+	});
+
 	describe(".input", function() {
 		it("should generate proper input", function() {
 			expect(µ.input("text", "in").outerHTML).toBe('<input name="in" type="text">');
+		});
+	});
+
+	describe(".INPUT", function() {
+		it("should generate proper input", function() {
+			expect(µ.INPUT("text", "in").outerHTML).toBe('<input name="in" type="text">');
 		});
 	});
 
@@ -122,9 +149,21 @@ describe("shorthand creation functions", function() {
 		});
 	});
 
+	describe(".TABLE", function() {
+		it("should generate proper table", function() {
+			expect(µ.TABLE([1, 2], [3, 4]).outerHTML).toBe("<table><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></table>");
+		});
+	});
+
 	describe(".ul", function() {
 		it("should generate proper unordered list", function() {
 			expect(µ.ul(1, 2).outerHTML).toBe("<ul><li>1</li><li>2</li></ul>");
+		});
+	});
+
+	describe(".UL", function() {
+		it("should generate proper unordered list", function() {
+			expect(µ.UL(1, 2).outerHTML).toBe("<ul><li>1</li><li>2</li></ul>");
 		});
 	});
 
@@ -138,9 +177,25 @@ describe("shorthand creation functions", function() {
 		});
 	});
 
+	describe(".ABBR", function() {
+		it("should generate proper abbreviation", function() {
+			expect(µ.ABBR("HyperText Markup Language", "HTML").outerHTML).toBe('<abbr title="HyperText Markup Language">HTML</abbr>');
+		});
+
+		it("should work with more arguments", function() {
+			expect(µ.ABBR("HyperText Markup Language", "HTML", "a").outerHTML).toBe('<abbr title="HyperText Markup Language">HTMLa</abbr>');
+		});
+	});
+
 	describe("combined", function() {
 		it("should generate proper output for nested calls", function() {
 			expect(µ.section(µ.div(µ.h1("Title"), µ.p(µ.em("Emphasis")))).outerHTML).toBe("<section><div><h1>Title</h1><p><em>Emphasis</em></p></div></section>");
+		});
+	});
+
+	describe("combined with caps", function() {
+		it("should generate proper output for nested calls", function() {
+			expect(µ.SECTION(µ.DIV(µ.H1("Title"), µ.P(µ.EM("Emphasis")))).outerHTML).toBe("<section><div><h1>Title</h1><p><em>Emphasis</em></p></div></section>");
 		});
 	});
 });

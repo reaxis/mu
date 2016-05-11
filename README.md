@@ -83,6 +83,8 @@ And some special, nested tags:
 
 There are also shorthands for the following tags, without specific attributes: **section, nav, article, aside, header, footer, address, main, div, span, p, strong, em, h1, h2, h3, h4, h5, h6, li, td**
 
+There are uppercase aliases for all of these, e.g. `µ.SECTION(µ.H1("Title"))`.
+
 ### Using chaining
 
 When using a callback function, like in `.each()` and `.on()`, `this` refers to the current element or the element which received the event.
